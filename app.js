@@ -14,21 +14,22 @@ const frame = blessed.text({
     height: '80%',
 
 }); 
-const menu = MenuWidget(blessed, data.lists[0].name, data.toItems(0));
+
+let menu = MenuWidget(blessed, data.lists[0].name, data.toItems(0));
 
 screen.key(['q', 'Q', 'escape','C-c'], function() {
     process.exit(0);
 });
 
-
-
 frame.append(menu);
 screen.append(frame);
 
-screen.on('element press', function(el, {index, value}) {
-    console.log(index,value);
+screen.on('element press', function(el, { index }) {
+    menu.destroy();
+    menu = MenuWidget(blessed, 'test', ['one','two','three']);
+    frame.append(menu);
+    screen.render();
 });
 
 menu.focus();
-
 screen.render();

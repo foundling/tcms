@@ -41,7 +41,7 @@ module.exports = exports = function(blessed, menuTitle, menuItems) {
         tasklist.focus();
     }
 
-    tasklist.on('select',function(el, index) {
+    tasklist.on('element select',function(el, index) {
         this.emit('press', {index,value: 'hi'});
     }); 
 
