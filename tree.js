@@ -2,7 +2,15 @@ let tree;
 
 function init(data) {
 
-    tree = node(null, [], data.name);
+    tree = node({
+
+        parent: null, 
+        children: [], 
+         // for now, data is a string, the window prompt
+        data: data
+
+    });
+
     buildTree(data, tree);
     return tree;
 
