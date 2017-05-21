@@ -1,0 +1,30 @@
+{
+  "name": "tcms",
+  "version": "1.0.0",
+  "description": "terminal information management",
+  "main": "app.js",
+  "dependencies": {
+    "blessed": "^0.1.81"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo 'no tests yet, but contribute!'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/foundling/tcms.git"
+  },
+  "keywords": [
+    "terminal",
+    "cli",
+    "information",
+    "management",
+    "cms"
+  ],
+  "author": "Alex Ramsdell",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/foundling/tcms/issues"
+  },
+  "homepage": "https://github.com/foundling/tcms#readme"
+}
