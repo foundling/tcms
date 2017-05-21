@@ -11,9 +11,11 @@ function init(data) {
 function node(parent, children=[], data) {
 
     return {
+
         parent,
         children,
         data
+
     };
 
 }
@@ -21,6 +23,7 @@ function node(parent, children=[], data) {
 function buildTree(dataPtr, treePtr) {
     
     if (dataPtr.items) {
+
         dataPtr.items.forEach(function(item) {
             let newNode = node(treePtr, [], item.name);
             treePtr.children.push(newNode);
@@ -44,7 +47,9 @@ function walkTree(tree, cb) {
 }
 
 function get(node, cb) {
+
     return cb(node);
+
 }
 
 function toMenuData(node) {
@@ -60,7 +65,9 @@ function toMenuData(node) {
 }
 
 module.exports = {
+
     init,
     walkTree,
     get
+
 };
