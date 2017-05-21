@@ -1,30 +1,31 @@
 const data = {
 
     name: 'vsts stories',
-    items: [
+    callbacks: [],
+    data: [
         {
             name: 'make video page mobile-accessible',
-            items: [
+            callbacks: [],
+            data: [
                 {
                     name: 'options',
-                    items: [
+                    callbacks: [],
+                    data: [
+                        {
+                            // should be able to toggle incomplete
+                            name: 'mark complete',
+                            callbacks: [],
+                            data: null,
+                        },
                         {
                             name: 'edit',
-                            items: [
-                            {
-                                name: '',
-                                items: null
-                            }
-                            ],
+                            callbacks: [],
+                            data: null 
                         },
                         {
                             name: 'delete',
-                            items: [
-                            {
-                                name: '',
-                                items: null
-                            }
-                            ],
+                            callbacks: [],
+                            data: null,
                         },
                     ]
                 }
@@ -32,19 +33,19 @@ const data = {
         }, 
         {
             name: 'fix video navigation bug',
-            items: [
+            data: [
                 {
                     name: 'leaf',
-                    items: null
+                    data: null
                 }
             ]
         }, 
         {
             name: 'make motivations page editable',
-            items: [
+            data: [
                 {
                     name: 'leaf',
-                    items: null
+                    data: null
                 }
             ]
         } 

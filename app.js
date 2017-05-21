@@ -21,19 +21,29 @@ const data = require('./data');
 const tree = require('./tree');
 
 let menuData = tree.init(data);
-let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
-let menu = MenuWidget(blessed, menuTitle, menuItems);
-
 function getTitleAndMenuItems(node) {
+
     return {
+
         menuTitle: node.data,
         menuItems: node.children.map(child => child.data)
+
     };
+
 }
 
-function nextWindow({ menuTitle, menuItems }) {
+let { 
 
-    return MenuWidget(blessed, menuTitle, menuItems); 
+    menuTitle, 
+    menuItems 
+
+} = tree.get(menuData, getTitleAndMenuItems);
+
+let menu = MenuWidget(blessed, menuTitle, menuItems);
+
+function nextWindow({ newTitle, newItems }) {
+
+    return MenuWidget(blessed, newTitle, newItems); 
 
 }
 
@@ -53,13 +63,19 @@ screen.key(['q', 'Q', 'escape','C-c'], function() {
 frame.append(menu);
 screen.append(frame);
 
+// this catches a user-emitted event from list items
+// so the signature seems to be not right
 screen.on('element select', function(el) {
 
-    menuData = menuData.children[ el.selected ];
+    let index = el.selected;
+    menuData = menuData.children[ index ];
+
     let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
     let [ titleWidget, listWidget ] = menu.children;
+
     titleWidget.setContent(menuTitle);
     listWidget.setItems(menuItems);
+
     screen.render();
 
 });
