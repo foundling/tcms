@@ -6,8 +6,27 @@ const data = {
             name: 'make video page mobile-accessible',
             items: [
                 {
-                    name: 'leaf',
-                    items: null
+                    name: 'options',
+                    items: [
+                        {
+                            name: 'edit',
+                            items: [
+                            {
+                                name: '',
+                                items: null
+                            }
+                            ],
+                        },
+                        {
+                            name: 'delete',
+                            items: [
+                            {
+                                name: '',
+                                items: null
+                            }
+                            ],
+                        },
+                    ]
                 }
             ]
         }, 
