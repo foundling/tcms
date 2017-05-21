@@ -1,6 +1,36 @@
 const blessed = require('blessed');
+let MenuWidget = require('./widgets/menu');
+const data = require('./data');
+let tree = require('./tree');
+
 const screen = blessed.screen({
     smartCSR: true
+});
+
+let menuData = tree.init(data);
+let { 
+
+    menuTitle, 
+    menuItems 
+
+} = tree.get(menuData, getTitleAndMenuItems);
+let menuWidget = MenuWidget(blessed, menuTitle, menuItems);
+
+// this catches a user-emitted event from list items
+// so the signature seems to be not right
+screen.on('element select', function(el) {
+
+    let index = el.selected;
+    menuData = menuData.children[ index ];
+
+    let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
+    let [ titleWidget, listWidget ] = menuWidget.children;
+
+    titleWidget.setContent(menuTitle);
+    listWidget.setItems(menuItems);
+
+    screen.render();
+
 });
 
 const frame = blessed.text({
@@ -16,11 +46,16 @@ const frame = blessed.text({
 
 }); 
 
-const MenuWidget = require('./widgets/menu');
-const data = require('./data');
-const tree = require('./tree');
+frame.append(menuWidget);
+screen.append(frame);
 
-let menuData = tree.init(data);
+screen.key(['q', 'Q', 'escape','C-c'], function() {
+    process.exit(0);
+});
+
+menuWidget.focus();
+screen.render();
+
 function getTitleAndMenuItems(node) {
 
     return {
@@ -32,53 +67,3 @@ function getTitleAndMenuItems(node) {
 
 }
 
-let { 
-
-    menuTitle, 
-    menuItems 
-
-} = tree.get(menuData, getTitleAndMenuItems);
-
-let menu = MenuWidget(blessed, menuTitle, menuItems);
-
-function nextWindow({ newTitle, newItems }) {
-
-    return MenuWidget(blessed, newTitle, newItems); 
-
-}
-
-function prevWindow(data) {
-
-    let parent = data.parent;
-    let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
-
-    return MenuWidget(blessed, menuTitle, menuItems);
-
-}
-
-screen.key(['q', 'Q', 'escape','C-c'], function() {
-    process.exit(0);
-});
-
-frame.append(menu);
-screen.append(frame);
-
-// this catches a user-emitted event from list items
-// so the signature seems to be not right
-screen.on('element select', function(el) {
-
-    let index = el.selected;
-    menuData = menuData.children[ index ];
-
-    let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
-    let [ titleWidget, listWidget ] = menu.children;
-
-    titleWidget.setContent(menuTitle);
-    listWidget.setItems(menuItems);
-
-    screen.render();
-
-});
-
-menu.focus();
-screen.render();

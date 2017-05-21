@@ -6,8 +6,9 @@ function init(data) {
 
         parent: null, 
         children: [], 
-         // for now, data is a string, the window prompt
-        data: data
+
+        // for now, data is a string, the user prompt
+        data: data.name
 
     });
 
@@ -39,6 +40,7 @@ function buildTree(dataPtr, treePtr) {
         });
 
     }
+
 }
 
 function walkTree(tree, cb) {
