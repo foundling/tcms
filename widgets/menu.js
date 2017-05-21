@@ -1,5 +1,3 @@
-const logger = require('../logger')('log.txt');
-
 module.exports = exports = function(blessed, menuTitle, menuItems) {
 
     const menuContainer = blessed.box({
@@ -41,9 +39,6 @@ module.exports = exports = function(blessed, menuTitle, menuItems) {
         tasklist.focus();
     }
 
-    tasklist.on('element select',function(el, index) {
-        this.emit('press', {index,value: 'hi'});
-    }); 
 
     menuContainer.append(listTitle);
     menuContainer.append(tasklist);

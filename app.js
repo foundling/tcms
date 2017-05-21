@@ -1,7 +1,7 @@
 const blessed = require('blessed');
 const data = require('./data');
+const tree = require('./tree');
 const MenuWidget = require('./widgets/menu');
-const logger = require('./logger')('log.txt');
 const screen = blessed.screen({
     smartCSR: true
 });
@@ -15,7 +15,31 @@ const frame = blessed.text({
 
 }); 
 
-let menu = MenuWidget(blessed, data.lists[0].name, data.toItems(0));
+function getTitleAndMenuItems(node) {
+    return {
+        menuTitle: node.data,
+        menuItems: node.children.map(child => child.data)
+    };
+}
+
+let menuData = tree.init(data);
+let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
+let menu = MenuWidget(blessed, menuTitle, menuItems);
+
+function nextWindow({ menuTitle, menuItems }) {
+
+    return MenuWidget(blessed, menuTitle, menuItems); 
+
+}
+
+function prevWindow(data) {
+
+    let parent = data.parent;
+    let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
+
+    return MenuWidget(blessed, menuTitle, menuItems);
+
+}
 
 screen.key(['q', 'Q', 'escape','C-c'], function() {
     process.exit(0);
@@ -24,11 +48,17 @@ screen.key(['q', 'Q', 'escape','C-c'], function() {
 frame.append(menu);
 screen.append(frame);
 
-screen.on('element press', function(el, { index }) {
-    menu.destroy();
-    menu = MenuWidget(blessed, 'test', ['one','two','three']);
-    frame.append(menu);
+screen.on('element select', function(el) {
+
+    menuData = menuData.children[el.selected];
+    let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
+    let [ titleWidget, listWidget ] = menu.children;
+    titleWidget.setContent(menuTitle);
+    listWidget.setItems(menuItems);
     screen.render();
+    
+
+
 });
 
 menu.focus();

@@ -1,27 +1,31 @@
-let data = require('./data');
-let tree = node();
-buildTree(data,tree);
-walkTree(tree, console.log);
+let tree;
+
+function init(data) {
+
+    tree = node(null, [], data.name);
+    buildTree(data, tree);
+    return tree;
+
+}
 
 function node(parent, children=[], data) {
+
     return {
         parent,
         children,
         data
     };
-}
 
+}
 
 function buildTree(dataPtr, treePtr) {
     
     if (dataPtr.items) {
-
         dataPtr.items.forEach(function(item) {
             let newNode = node(treePtr, [], item.name);
             treePtr.children.push(newNode);
             buildTree(item,newNode);
         });
-
 
     }
 }
@@ -39,3 +43,24 @@ function walkTree(tree, cb) {
 
 }
 
+function get(node, cb) {
+    return cb(node);
+}
+
+function toMenuData(node) {
+
+    let menuTitle = node.data;
+    let menuItems = node.children.map(child => child.data);
+
+    return {
+        menuTitle,
+        menuItems
+    };
+
+}
+
+module.exports = {
+    init,
+    walkTree,
+    get
+};
