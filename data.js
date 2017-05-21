@@ -1,26 +1,39 @@
 const data = {
-    lists: [
+    name: 'root',
+    items: [
         {
             name: 'vsts stories',
             items: [
                 {
-                    name: 'make video page mobile accessible',
-                    complete: false
+                    name: 'make video page mobile-accessible',
+                    items: [
+                        {
+                            name: 'leaf',
+                            items: null
+                        }
+                    ]
                 }, 
                 {
                     name: 'fix video navigation bug',
-                    complete: false
+                    items: [
+                        {
+                            name: 'leaf',
+                            items: null
+                        }
+                    ]
                 }, 
                 {
                     name: 'make motivations page editable',
-                    complete: false
+                    items: [
+                        {
+                            name: 'leaf',
+                            items: null
+                        }
+                    ]
                 } 
             ]
         }
-    ],
-    toItems: function(index) {
-        return data.lists[index].items.map(item =>  item.name);
-    }
+    ]
 }; 
 
 module.exports = exports = data;
