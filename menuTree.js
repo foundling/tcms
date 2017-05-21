@@ -1,4 +1,7 @@
 let data = require('./data');
+let tree = node();
+buildTree(data,tree);
+walkTree(tree, console.log);
 
 function node(parent, children=[], data) {
     return {
@@ -8,7 +11,6 @@ function node(parent, children=[], data) {
     };
 }
 
-let tree = node();
 
 function buildTree(dataPtr, treePtr) {
     
@@ -37,8 +39,3 @@ function walkTree(tree, cb) {
 
 }
 
-buildTree(data,tree);
-
-module.exports = tree;
-
-walkTree(tree, console.log);
