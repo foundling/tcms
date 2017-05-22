@@ -1,4 +1,5 @@
 let tree;
+let totalCalls = 0; 
 
 function init(data) {
 
@@ -37,6 +38,8 @@ function buildTree(dataPtr, treePtr) {
             let newNode = node(treePtr, [], item.name);
             treePtr.children.push(newNode);
             buildTree(item,newNode);
+            return totalCalls += 1;
+
         });
 
     }

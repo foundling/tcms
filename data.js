@@ -14,6 +14,10 @@ const data = {
                         {
                             // should be able to toggle incomplete
                             name: 'mark complete',
+
+                            // of course, this is the user space. in the application space, 
+                            // there will be default callbacks that do general things such as
+                            // edit, update, delete, etc 
                             callbacks: [],
                             data: null,
                         },
