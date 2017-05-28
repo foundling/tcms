@@ -1,9 +1,8 @@
 let tree;
-let totalCalls = 0; 
 
 function init(data) {
 
-    tree = node({
+    this.tree = new Node({
 
         parent: null, 
         children: [], 
@@ -13,20 +12,18 @@ function init(data) {
 
     });
 
-    buildTree(data, tree);
-    return tree;
+    // store current pointer
+    this.nodePtr = this.tree;
+
+    buildTree(data, this.tree);
 
 }
 
-function node(parent, children=[], data) {
+function Node(parent, children=[], data) {
 
-    return {
-
-        parent,
-        children,
-        data
-
-    };
+    this.parent = parent;
+    this.children = children;
+    this.data = data;
 
 }
 
@@ -35,10 +32,10 @@ function buildTree(dataPtr, treePtr) {
     if (dataPtr.data) {
 
         dataPtr.data.forEach(function(item) {
-            let newNode = node(treePtr, [], item.name);
+
+            let newNode = new Node(treePtr, [], item.name);
             treePtr.children.push(newNode);
             buildTree(item,newNode);
-            return totalCalls += 1;
 
         });
 
@@ -46,11 +43,12 @@ function buildTree(dataPtr, treePtr) {
 
 }
 
-function walkTree(tree, cb) {
+function walkTree(cb) {
 
-    if (tree.children.length) {
+    let treePtr = this.tree;
+    if (treePtr.children.length) {
 
-        tree.children.forEach(function(child) {
+        treePtr.children.forEach(function(child) {
             cb(child.data);
             walkTree(child, cb);
         });
@@ -59,9 +57,9 @@ function walkTree(tree, cb) {
 
 }
 
-function get(node, cb) {
+function fromNode(cb) {
 
-    return cb(node);
+    return cb(this.nodePtr);
 
 }
 
@@ -81,6 +79,6 @@ module.exports = {
 
     init,
     walkTree,
-    get
+    fromNode
 
 };

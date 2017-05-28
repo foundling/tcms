@@ -1,21 +1,7 @@
 const blessed = require('blessed');
-const data = require('./data');
 const screen = blessed.screen({
     smartCSR: true
 });
-
-let MenuWidget = require('./widgets/menu');
-let tree = require('./tree');
-
-let menuData = tree.init(data);
-let { 
-
-    menuTitle, 
-    menuItems 
-
-} = tree.get(menuData, getTitleAndMenuItems);
-let menuWidget = MenuWidget(blessed, menuTitle, menuItems);
-
 const frame = blessed.text({
 
     parent: screen,
@@ -28,6 +14,19 @@ const frame = blessed.text({
     }
 
 }); 
+const data = require('./data');
+const MenuWidget = require('./widgets/menu');
+
+let tree = require('./tree');
+
+tree.init(data);
+let { 
+
+    menuTitle, 
+    menuItems 
+
+} = tree.fromNode(getTitleAndMenuItems);
+let menuWidget = MenuWidget(blessed, menuTitle, menuItems);
 
 frame.append(menuWidget);
 screen.append(frame);
@@ -56,8 +55,12 @@ function getTitleAndMenuItems(node) {
 
 function handleListSelection (el) {
 
+    // resume here. this is a mess
     let index = el.selected;
-    menuData = menuData.children[ index ];
+    let menuData = tree.fromNode(node => {
+        return node.children[index];
+        treePtr.children[ index ];
+    });
 
     let { menuTitle, menuItems } = tree.get(menuData, getTitleAndMenuItems);
     let [ titleWidget, listWidget ] = menuWidget.children;
